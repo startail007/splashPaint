@@ -1,2 +1,3 @@
-# splashInk
- 潑墨效果
+# 潑漆效果
+
+[線上觀看](https://virtools.github.io/splashPaint/)
