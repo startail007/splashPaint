@@ -1,13 +1,16 @@
-const setShadow = function (ctx, offsetX, offsetY, blur, color) {
+const createCTX = () => {
+  return document.createElement("canvas").getContext("2d");
+};
+const setShadow = (ctx, offsetX, offsetY, blur, color) => {
   ctx.shadowColor = color;
   ctx.shadowBlur = blur;
   ctx.shadowOffsetX = offsetX;
   ctx.shadowOffsetY = offsetY;
 };
-const clearShadow = function (ctx) {
+const clearShadow = (ctx) => {
   setShadow(ctx, 0, 0, 0, "rgba(0, 0, 0, 0)");
 };
-const numberCrop = function (value, min, max) {
+const numberCrop = (value, min, max) => {
   if (value <= min) {
     return min;
   }
@@ -16,9 +19,9 @@ const numberCrop = function (value, min, max) {
   }
   return value;
 };
-const debounce = function (func, delay = 250) {
+const debounce = (func, delay = 250) => {
   let timeout = null;
-  return function () {
+  return () => {
     const context = this;
     const args = arguments;
     clearTimeout(timeout);
@@ -31,4 +34,4 @@ const randomSeedList = new Array(200);
 for (let i = 0, len = randomSeedList.length; i < len; i++) {
   randomSeedList[i] = 1 - 2 * Math.random();
 }
-export { setShadow, clearShadow, numberCrop, debounce, randomSeedList };
+export { createCTX, setShadow, clearShadow, numberCrop, debounce, randomSeedList };

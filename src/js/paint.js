@@ -61,17 +61,24 @@ class Paint {
     } else {
       this.velocity[0] *= 0.94;
       this.velocity[1] *= 0.94;
+      if (this.volume > 0) {
+        this.volume -= 0.1;
+      }
     }
+  }
+  getR() {
+    const r = this.volume - this.z;
+    return r > 1 ? r : 1;
+  }
+  getPrevR() {
+    const r = this.prevVolume - this.prevZ;
+    return r > 1 ? r : 1;
   }
   render(ctx) {
     if (this.volume <= 0) return;
     if (this.z < this.volume) {
-      let r = this.volume - this.z;
-      r = r > 1 ? r : 1;
-
-      let prevR = this.prevVolume - this.prevZ;
-      prevR = prevR > 1 ? prevR : 1;
-
+      const r = this.getR();
+      const prevR = this.getPrevR();
       ctx.fillStyle = this.options.color;
       const points = circleToCircleTangentPoint(this.prevPos, prevR, this.pos, r);
       if (points) {
@@ -83,24 +90,24 @@ class Paint {
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(this.prevPos[0], this.prevPos[1], prevR, 0, 2 * Math.PI, true);
+        ctx.arc(this.prevPos[0], this.prevPos[1], prevR, 0, 2 * Math.PI);
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(this.pos[0], this.pos[1], r, 0, 2 * Math.PI, true);
+        ctx.arc(this.pos[0], this.pos[1], r, 0, 2 * Math.PI);
         ctx.fill();
       } else {
         if (prevR > r) {
           ctx.beginPath();
-          ctx.arc(this.prevPos[0], this.prevPos[1], prevR, 0, 2 * Math.PI, true);
+          ctx.arc(this.prevPos[0], this.prevPos[1], prevR, 0, 2 * Math.PI);
           ctx.fill();
         } else {
           ctx.beginPath();
-          ctx.arc(this.pos[0], this.pos[1], r, 0, 2 * Math.PI, true);
+          ctx.arc(this.pos[0], this.pos[1], r, 0, 2 * Math.PI);
           ctx.fill();
         }
       }
     }
   }
 }
-export { Paint };
+export default Paint;
