@@ -99,7 +99,7 @@ const render = () => {
 
   /*ctx01.lineJoin = "round";
   ctx01.lineCap = "round";*/
-
+  //ctx01.clearRect(0, 0, cWidth, cHeight);
   bucketList.forEach((el) => el.render(ctx01));
 
   ctx02.clearRect(0, 0, cWidth, cHeight);
@@ -133,7 +133,7 @@ const render = () => {
   ctx02.fillText(fps.toFixed(1), 10, 10);
   ctx02.restore();
 
-  ctx.clearRect(0, 0, cWidth, cHeight);
+  //ctx.clearRect(0, 0, cWidth, cHeight);
   ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, cWidth, cHeight);
   ctx.drawImage(ctx01.canvas, 0, 0);
