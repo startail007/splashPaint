@@ -54,7 +54,7 @@ const bucketList = [];
 let fps = 0;
 let oldTime = Date.now();
 
-window.addEventListener("mousemove", (e) => {
+/*window.addEventListener("mousemove", (e) => {
   mPos[0] = e.offsetX;
   mPos[1] = e.offsetY;
 });
@@ -72,7 +72,53 @@ window.addEventListener("mouseup", (e) => {
   const bucket = new Bucket();
   bucket.splash(mPos, volume, directVelocity, color);
   bucketList.push(bucket);
-});
+});*/
+
+const ev_start = (e) => {
+  if (!mousedown) {
+    const el = e.touches ? e.touches[0] : e;
+    mPos[0] = el.pageX;
+    mPos[1] = el.pageY;
+    mousedown = true;
+
+    volume = 20;
+    color = `hsla(${360 * Math.random()},100%,50%)`;
+    start = false;
+  }
+};
+const ev_move = (e) => {
+  if (mousedown) {
+    const el = e.touches ? e.touches[0] : e;
+    mPos[0] = el.pageX;
+    mPos[1] = el.pageY;
+  }
+};
+const ev_end = () => {
+  if (mousedown) {
+    mousedown = false;
+
+    const v = Vector.sub(mPos, prev_mPos);
+    const a = Math.atan2(v[1], v[0]);
+    const directVelocity = Vector.scale([Math.cos(a), Math.sin(a)], Math.min(Vector.length(v), 40));
+    const bucket = new Bucket();
+    bucket.splash(mPos, volume, directVelocity, color);
+    bucketList.push(bucket);
+  }
+};
+
+const isMobile = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+console.log(isMobile());
+if (isMobile()) {
+  canvas.addEventListener("touchstart", ev_start);
+  canvas.addEventListener("touchmove", ev_move);
+  canvas.addEventListener("touchend", ev_end);
+} else {
+  canvas.addEventListener("mousedown", ev_start);
+  canvas.addEventListener("mousemove", ev_move);
+  canvas.addEventListener("mouseup", ev_end);
+}
 window.addEventListener("resize", () => {
   init();
 });
