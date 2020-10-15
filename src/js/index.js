@@ -109,7 +109,6 @@ const ev_end = () => {
 const isMobile = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 };
-console.log(isMobile());
 if (isMobile()) {
   canvas.addEventListener("touchstart", ev_start);
   canvas.addEventListener("touchmove", ev_move);
